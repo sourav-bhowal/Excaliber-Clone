@@ -1,4 +1,4 @@
-import prisma from "@repo/database/prisma";
+import { prisma } from "@repo/database/prisma";
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
@@ -40,7 +40,6 @@ export const signUpUser = asyncHandler(async (req: Request, res: Response) => {
 
     // Send the response
     res.status(201).json({
-      user,
       message: "User created successfully",
     });
   } catch (error) {
@@ -97,7 +96,6 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
     // Send the response
     res.status(200).json({
       token,
-      user,
       message: "User logged in successfully",
     });
   } catch (error) {

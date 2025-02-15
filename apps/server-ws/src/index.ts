@@ -1,7 +1,7 @@
 import { WebSocketServer } from "ws";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { JWT_SECRET } from "@repo/envs/config";
-import prisma from "@repo/database/prisma";
+import { prisma } from "@repo/database/prisma";
 
 // Create a WebSocket server on port 8000
 const webSocketServer = new WebSocketServer({ port: 8000 });
