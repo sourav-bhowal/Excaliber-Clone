@@ -1,4 +1,4 @@
-import { prisma } from "@repo/database/prisma";
+import prisma from "@repo/database/prisma";
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
