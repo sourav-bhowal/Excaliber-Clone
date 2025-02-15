@@ -6,6 +6,7 @@ import { signUpUserSchema, loginUserSchema } from "@repo/schemas/schema";
 import { JWT_SECRET } from "@repo/envs/config";
 import asyncHandler from "../utils/asyncHandler";
 
+// Sign up user controller
 export const signUpUser = asyncHandler(async (req: Request, res: Response) => {
   try {
     // Validate the request body
@@ -66,7 +67,7 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
     // If the user does not exist, return an error
     if (!user) {
       return res.status(400).json({
-        message: "Invalid credentials",
+        message: "User does not except. Try signing up.",
       });
     }
 
