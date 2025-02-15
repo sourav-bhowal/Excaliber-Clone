@@ -1,5 +1,5 @@
 {
-  "name": "exclaiber-clone",
+  "name": "excaliber-clone",
   "private": true,
   "scripts": {
     "build": "turbo build",

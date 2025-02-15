@@ -12,8 +12,19 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "@repo/database": "workspace:*",
+    "@repo/schemas": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+    "@repo/envs": "workspace:*",
+    "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
-    "express": "^4.21.2"
+    "@types/jsonwebtoken": "^9.0.8"
   }
 }
