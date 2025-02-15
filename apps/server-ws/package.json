@@ -19,6 +19,7 @@
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
     "@types/ws": "^8.5.14",
-    "@repo/envs": "workspace:*"
+    "@repo/envs": "workspace:*",
+    "@repo/database": "workspace:*"
   }
 }
