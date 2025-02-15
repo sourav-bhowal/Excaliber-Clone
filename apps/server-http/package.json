@@ -19,9 +19,9 @@
   },
   "devDependencies": {
     "@repo/database": "workspace:*",
+    "@repo/envs": "workspace:*",
     "@repo/schemas": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "@repo/envs": "workspace:*",
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",

@@ -76,9 +76,10 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
     // If the password is invalid, return an error
     if (!isPasswordValid) {
       return res.status(400).json({
-        message: "Invalid credentials. Please try again",
+        message: "Invalid password. Please try again",
       });
     }
+    console.log("CoN", JWT_SECRET);
 
     // Create a JWT token
     const token = jwt.sign(
