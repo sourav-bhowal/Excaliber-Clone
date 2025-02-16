@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import asyncHandler from "../utils/asyncHandler";
-import { JWT_SECRET } from "@repo/envs/config";
+import { config } from "@repo/envs/config";
 
 // Middleware to check if the user is authenticated
 export const authMiddleware = asyncHandler(
@@ -19,7 +19,7 @@ export const authMiddleware = asyncHandler(
     // Verify the token
     try {
       // Verify the token
-      const decodedToken = jwt.verify(token, JWT_SECRET!);
+      const decodedToken = jwt.verify(token, config.JWT_SECRET!);
 
       // If no decoded token is found, return an error
       if (!decodedToken) {

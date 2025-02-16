@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { signUpUserSchema, loginUserSchema } from "@repo/schemas/schema";
-import { JWT_SECRET } from "@repo/envs/config";
+import { config } from "@repo/envs/config";
 import asyncHandler from "../utils/asyncHandler";
 
 // Sign up user controller
@@ -87,7 +87,7 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
         email: user.email,
         name: user.name,
       },
-      JWT_SECRET!,
+      config.JWT_SECRET!,
       {
         expiresIn: "24h",
       }

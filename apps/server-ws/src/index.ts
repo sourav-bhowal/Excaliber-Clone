@@ -1,6 +1,6 @@
 import { WebSocketServer, WebSocket } from "ws";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { JWT_SECRET } from "@repo/envs/config";
+import { config } from "@repo/envs/config";
 import { prisma } from "@repo/database/prisma";
 import { publishToQueue, consumeQueue } from "./lib/queue";
 
@@ -19,7 +19,7 @@ const users = new Map<WebSocket, User>();
 // Check user is authenticated or not using JWT token
 function isAuthenticated(token: string): string | null {
   try {
-    const decodedToken = jwt.verify(token, JWT_SECRET!) as JwtPayload;
+    const decodedToken = jwt.verify(token, config.JWT_SECRET!) as JwtPayload;
     return decodedToken.id;
   } catch (error) {
     return null;

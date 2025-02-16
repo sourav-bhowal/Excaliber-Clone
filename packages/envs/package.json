@@ -14,6 +14,8 @@
     "@repo/typescript-config": "workspace:*"
   },
   "dependencies": {
-    "@types/node": "^22.13.4"
+    "@types/dotenv": "^8.2.3",
+    "@types/node": "^22.13.4",
+    "dotenv": "^16.4.7"
   }
 }

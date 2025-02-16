@@ -1,4 +1,4 @@
-import { RABBITMQ_URL } from "@repo/envs/config";
+import { config } from "@repo/envs/config";
 import amqp, { Connection, Channel, ConsumeMessage } from "amqplib";
 
 // Define connection and channel variables as null
@@ -15,7 +15,7 @@ const connectRabbitMQ = async () => {
   // Try to connect to RabbitMQ server and create a channel
   try {
     // Connect to RabbitMQ server
-    connection = await amqp.connect(RABBITMQ_URL);
+    connection = await amqp.connect(config.RABBITMQ_URL!);
     console.log("Connected to RabbitMQ!!");
     // Create a channel
     channel = await connection.createChannel();
