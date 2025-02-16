@@ -13,13 +13,15 @@
   "description": "",
   "dependencies": {
     "@types/jsonwebtoken": "^9.0.8",
+    "amqplib": "^0.10.5",
     "jsonwebtoken": "^9.0.2",
     "ws": "^8.18.0"
   },
   "devDependencies": {
-    "@repo/typescript-config": "workspace:*",
-    "@types/ws": "^8.5.14",
+    "@repo/database": "workspace:*",
     "@repo/envs": "workspace:*",
-    "@repo/database": "workspace:*"
+    "@repo/typescript-config": "workspace:*",
+    "@types/amqplib": "^0.10.6",
+    "@types/ws": "^8.5.14"
   }
 }

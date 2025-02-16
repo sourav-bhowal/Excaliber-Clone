@@ -79,7 +79,6 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
         message: "Invalid password. Please try again",
       });
     }
-    console.log("CoN", JWT_SECRET);
 
     // Create a JWT token
     const token = jwt.sign(
