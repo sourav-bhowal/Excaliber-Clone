@@ -89,7 +89,7 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
       },
       JWT_SECRET!,
       {
-        expiresIn: "1h",
+        expiresIn: "24h",
       }
     );
 

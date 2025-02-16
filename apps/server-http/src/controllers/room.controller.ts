@@ -68,6 +68,10 @@ export const getRoomChats = asyncHandler(
       include: {
         user: true,
       },
+      orderBy: {
+        id: "desc",
+      },
+      take: 50,
     });
 
     // Send the response

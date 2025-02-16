@@ -191,7 +191,6 @@ consumeQueue(async (msg) => {
     const messageData = JSON.parse(msg.content.toString());
     // Get the room id, user id, user name, and message from the message data
     const { roomId, userId, userName, message } = messageData;
-    console.log("Message received from the queue:", messageData);
     // Send the message to the users in the room
     users.forEach((user, ws) => {
       if (user.rooms.includes(roomId)) {
