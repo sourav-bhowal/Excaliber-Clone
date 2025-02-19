@@ -76,8 +76,43 @@ export const getRoomChats = asyncHandler(
 
     // Send the response
     res.status(200).json({
-      data: chats,
+      chats,
       message: "Chats retrieved successfully",
+    });
+  }
+);
+
+// Get the room by slug
+export const getRoomBySlug = asyncHandler(
+  async (req: Request, res: Response) => {
+    // Get the room slug from the request
+    const slug = req.params.slug;
+
+    // If the room slug is not present, return an error
+    if (!slug) {
+      return res.status(400).json({
+        message: "Room slug is required",
+      });
+    }
+
+    // Get the room by slug
+    const room = await prisma.room.findUnique({
+      where: {
+        slug,
+      },
+    });
+
+    // If the room is not found, return an error
+    if (!room) {
+      return res.status(404).json({
+        message: "Room not found",
+      });
+    }
+
+    // Send the response
+    res.status(200).json({
+      room,
+      message: "Room retrieved successfully",
     });
   }
 );

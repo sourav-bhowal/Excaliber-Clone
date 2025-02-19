@@ -21,7 +21,7 @@ export const signUpUser = asyncHandler(async (req: Request, res: Response) => {
 
     // If the user already exists, return an error
     if (existingUser) {
-      return res.status(400).json({
+      return res.json({
         message: "User already exists",
       });
     }
@@ -30,7 +30,7 @@ export const signUpUser = asyncHandler(async (req: Request, res: Response) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create a new user
-    const user = await prisma.user.create({
+    await prisma.user.create({
       data: {
         email,
         name,
@@ -65,9 +65,11 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
 
     // If the user does not exist, return an error
     if (!user) {
-      return res.status(400).json({
-        message: "User does not except. Try signing up.",
-      });
+      return res
+        .json({
+          message: "User does not exist. Please sign up",
+        })
+        .status(404);
     }
 
     // Compare the password
@@ -75,9 +77,11 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
 
     // If the password is invalid, return an error
     if (!isPasswordValid) {
-      return res.status(400).json({
-        message: "Invalid password. Please try again",
-      });
+      return res
+        .json({
+          message: "Invalid password. Please try again",
+        })
+        .status(404);
     }
 
     // Create a JWT token
@@ -95,7 +99,12 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
 
     // Send the response
     res.status(200).json({
-      token,
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        token,
+      },
       message: "User logged in successfully",
     });
   } catch (error) {

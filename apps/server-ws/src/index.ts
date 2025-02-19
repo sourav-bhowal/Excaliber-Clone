@@ -5,7 +5,7 @@ import { prisma } from "@repo/database/prisma";
 import { publishToQueue, consumeQueue } from "./lib/queue";
 
 // Create a WebSocket server on port 8000
-const webSocketServer = new WebSocketServer({ port: 8000 });
+const webSocketServer = new WebSocketServer({ port: Number(config.WS_PORT) });
 
 // Interface of User object
 interface User {
@@ -44,11 +44,14 @@ webSocketServer.on("connection", (socket, request) => {
   // Get the token from the query parameters
   const token = queryParams.get("token") || "";
 
+  console.log("WS Server --- Token: ", token);
+
   // Check if the user is authenticated or not
   const userId = isAuthenticated(token);
 
   // If the user is not authenticated, return
   if (!userId) {
+    console.log("WS Server --- User is not authenticated.");
     socket.send(
       JSON.stringify({
         type: "Error",
