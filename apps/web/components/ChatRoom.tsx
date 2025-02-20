@@ -13,7 +13,9 @@ export default async function ChatRoom({ roomId }: ChatProps) {
   const session = await auth();
   const user = session?.user;
   // get chats by room id
-  const chats = await getChatsByRoomId(roomId);
+  const chats = await getChatsByRoomId(roomId, user?.token as string);
 
-  return <ChatRoomClient messages={chats} roomId={roomId} user={user as User} />;
+  return (
+    <ChatRoomClient messages={chats} roomId={roomId} user={user as User} />
+  );
 }

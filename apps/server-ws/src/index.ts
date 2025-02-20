@@ -44,8 +44,6 @@ webSocketServer.on("connection", (socket, request) => {
   // Get the token from the query parameters
   const token = queryParams.get("token") || "";
 
-  console.log("WS Server --- Token: ", token);
-
   // Check if the user is authenticated or not
   const userId = isAuthenticated(token);
 

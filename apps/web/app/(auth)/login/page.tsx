@@ -11,6 +11,7 @@ export default function SignIn() {
 
   // onSubmit function
   async function onSubmit(data: LoginUser) {
+    // Nextauth signin
     await signIn("credentials", {
       email: data.email,
       password: data.password,
