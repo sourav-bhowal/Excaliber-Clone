@@ -2,7 +2,7 @@
 import React from "react";
 import { ReactNode } from "react";
 
-interface ButtonProps {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   className?: string;
   type?: "button" | "submit" | "reset";

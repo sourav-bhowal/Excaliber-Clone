@@ -1,21 +1,30 @@
 import { config } from "@repo/envs/config";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
-// This hook is used to create a WebSocket connection to the backend server
-export function useSocket(token: string) {
-  // Create a reference to the WebSocket object
-  const socket = useRef<WebSocket | null>(null);
-  // Create a state variable to keep track of the loading state
-  const [loading, setLoading] = useState(true);
-
-  // Create the WebSocket connection when the component mounts
+// Custom hook to use a WebSocket connection
+export function useSocket(token: string, roomId: string) {
+  // State to store the WebSocket connection
+  const [socket, setSocket] = useState<WebSocket | null>(null);
+  // State to indicate if the connection
+  const [isLoading, setIsLoading] = useState(true);
+  // useEffect to create a new WebSocket connection
   useEffect(() => {
     // Create a new WebSocket connection
-    socket.current = new WebSocket(`${config.WS_BACKEND_URL}?token=${token}`);
-    // Set the loading state to false when the connection is open
-    socket.current.onopen = () => setLoading(false);
-  }, []);
-
-  // Return the WebSocket object and the loading state
-  return { socket: socket.current, loading };
+    const ws = new WebSocket(`${config.WS_BACKEND_URL}/?token=${token}`);
+    // Set the WebSocket connection in the state if the connection is open
+    ws.onopen = () => {
+      setSocket(ws);
+      // Send a message to join the room
+      ws.send(
+        JSON.stringify({
+          type: "join-room",
+          roomId,
+        })
+      );
+    };
+    // Set the loading state to false
+    setIsLoading(false);
+  }, [roomId, token]);
+  // Return the WebSocket connection and loading state
+  return { socket, isLoading };
 }

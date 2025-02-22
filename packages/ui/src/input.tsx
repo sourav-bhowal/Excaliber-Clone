@@ -1,18 +1,16 @@
 "use client";
-import React from "react";
+import React, { forwardRef } from "react";
 
-interface InputProps {
-  type: string;
-  placeholder: string;
-  className?: string;
-}
+type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
-export const Input = ({ type, placeholder, className }: InputProps) => {
+export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   return (
     <input
-      type={type}
-      placeholder={placeholder}
-      className={`w-full px-4 py-3 text-black rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${className}`}
+      ref={ref}
+      className="w-full px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
+      {...props}
     />
   );
-};
+});
+
+Input.displayName = "Input";

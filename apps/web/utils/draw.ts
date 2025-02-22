@@ -1,36 +1,39 @@
-// Types of shapes to draw
-type Shape =
-  | {
-      type: "rectangle";
-      x: number;
-      y: number;
-      width: number;
-      height: number;
-    }
-  | {
-      type: "circle";
-      centerX: number;
-      centerY: number;
-      radius: number;
-    }
-  | {
-      type: "line";
-      x1: number;
-      y1: number;
-      x2: number;
-      y2: number;
-    };
+import { Shape } from "../types/shapes";
+import { getExistingShapes } from "./functions";
+
+// Draw props
+interface DrawProps {
+  canvas: HTMLCanvasElement;
+  roomId: string;
+  socket: WebSocket;
+  token: string;
+}
 
 // Function to draw shapes on the canvas
-export function draw(canvas: HTMLCanvasElement) {
+export async function draw({ canvas, roomId, socket, token }: DrawProps) {
   // Get the 2d context
   const context = canvas?.getContext("2d");
 
-  // Existing shapes to draw
-  const existingShapes: Shape[] = [];
+  // Get the existing shapes from the server for the given room
+  const existingShapes: Shape[] = await getExistingShapes(roomId, token);
 
   // If no context, return
   if (!context) return;
+
+  // Socket message event
+  socket.onmessage = (event) => {
+    const parsedData = JSON.parse(event.data); // Parse the data to a JSON object
+    const type = parsedData.type; // Get the type of the message
+    if (type === "chat") {
+      // If the type is chat
+      const parsedShape = JSON.parse(parsedData.message); // Parse the shape message
+      existingShapes.push(parsedShape); // Add the shape to the existing shapes
+      clearCanvasAndRedraw(existingShapes, context); // Clear the canvas and redraw all the existing shapes
+    }
+  };
+
+  // Clear the canvas and redraw all the existing shapes
+  clearCanvasAndRedraw(existingShapes, context);
 
   // DRAW LOGIC HERE
   let startDrawing = false; // Flag to indicate if the user is drawing
@@ -55,14 +58,26 @@ export function draw(canvas: HTMLCanvasElement) {
     const width = event.clientX - startX;
     const height = event.clientY - startY;
 
-    // Add the rectangle to the existing shapes
-    existingShapes.push({
+    // Create a new rectangle object
+    const NewShape: Shape = {
       type: "rectangle",
       x: startX,
       y: startY,
       width,
       height,
-    });
+    };
+
+    // Add the rectangle to the existing shapes
+    existingShapes.push(NewShape);
+
+    // Send the rectangle to the WS server
+    socket.send(
+      JSON.stringify({
+        type: "chat",
+        message: JSON.stringify(NewShape), // Send the rectangle as a string
+        roomId,
+      })
+    );
   });
 
   // Mouse move event
@@ -91,17 +106,17 @@ function clearCanvasAndRedraw(
   // Redraw all the existing shapes
   existingShapes.forEach((shape) => {
     if (shape.type === "rectangle") {
-      context.strokeStyle = "red";
-      context.strokeRect(shape.x, shape.y, shape.width, shape.height);
+      context.strokeStyle = "red"; // strokeStyle is the color of the rectangle
+      context.strokeRect(shape.x, shape.y, shape.width, shape.height); // Draw the rectangle on the canvas
     } else if (shape.type === "circle") {
-      context.beginPath();
-      context.arc(shape.centerX, shape.centerY, shape.radius, 0, 2 * Math.PI);
-      context.stroke();
+      context.beginPath(); // Begin a new path
+      context.arc(shape.centerX, shape.centerY, shape.radius, 0, 2 * Math.PI); // Draw a circle
+      context.stroke(); // Stroke the circle
     } else if (shape.type === "line") {
-      context.beginPath();
-      context.moveTo(shape.x1, shape.y1);
-      context.lineTo(shape.x2, shape.y2);
-      context.stroke();
+      context.beginPath(); // Begin a new path
+      context.moveTo(shape.x1, shape.y1); // Move the starting point of the line
+      context.lineTo(shape.x2, shape.y2); // Draw a line to the end point
+      context.stroke(); // Stroke the line
     }
   });
 }

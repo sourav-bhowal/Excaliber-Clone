@@ -1,14 +1,18 @@
 import { auth } from "./app/api/auth/[...nextauth]/auth";
 
 export default auth((req) => {
-  if (!req.auth && (req.nextUrl.pathname !== "/login")) {
-    const newUrl = new URL("/login", req.nextUrl.origin);
+  if (!req.auth && (
+    req.nextUrl.pathname.startsWith("/canvas") ||
+    req.nextUrl.pathname.startsWith("/room")
+  )) {
+    const newUrl = new URL("/signin", req.nextUrl.origin);
     return Response.redirect(newUrl);
   }
 
   if (
     req.auth &&
-    (req.nextUrl.pathname === "/login" || req.nextUrl.pathname === "/signup")
+    (req.nextUrl.pathname.startsWith("/signin") ||
+      req.nextUrl.pathname.startsWith("/signup"))
   ) {
     const newUrl = new URL("/", req.nextUrl.origin);
     return Response.redirect(newUrl);
@@ -16,5 +20,5 @@ export default auth((req) => {
 });
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/signin", "/signup", "/", "/canvas/:path*", "/room/:path*"],
 };

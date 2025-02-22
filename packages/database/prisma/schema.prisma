@@ -37,14 +37,14 @@ model Room {
 
 // Chat model
 model Chat {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  user      User      @relation(fields: [userId], references: [id])
   roomId    String
-  room      Room     @relation(fields: [roomId], references: [id])
+  room      Room      @relation(fields: [roomId], references: [id])
   message   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   @@map("chats")
 }

@@ -6,7 +6,7 @@ import { prisma } from "@repo/database/prisma";
 // Create a room controller
 export const createRoom = asyncHandler(async (req: Request, res: Response) => {
   // Validate the request body
-  const { roomName } = createRoomSchema.parse(req.body);
+  const { slug } = createRoomSchema.parse(req.body);
 
   // Get the user ID from the request
   const userId = req.user?.id;
@@ -21,7 +21,7 @@ export const createRoom = asyncHandler(async (req: Request, res: Response) => {
   // Check if the room already exists
   const existingRoom = await prisma.room.findUnique({
     where: {
-      slug: roomName,
+      slug,
     },
   });
 
@@ -35,7 +35,7 @@ export const createRoom = asyncHandler(async (req: Request, res: Response) => {
   // Create a new room
   const room = await prisma.room.create({
     data: {
-      slug: roomName,
+      slug,
       adminId: userId,
     },
   });
