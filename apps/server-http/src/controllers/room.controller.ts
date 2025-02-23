@@ -43,7 +43,7 @@ export const createRoom = asyncHandler(async (req: Request, res: Response) => {
   // Send the response
   res.status(201).json({
     message: "Room created successfully",
-    data: room,
+    room,
   });
 });
 
