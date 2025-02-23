@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import axios from "axios";
+import { config } from "./config";
 
 export const { handlers, auth } = NextAuth({
   providers: [
@@ -10,7 +11,7 @@ export const { handlers, auth } = NextAuth({
         password: { label: "Password", type: "password" },
       },
       authorize: async (credentials) => {
-        const response = await axios.post(`http://localhost:3002/api/login`, {
+        const response = await axios.post(`${config.HTTP_BACKEND_URL}/login`, {
           email: credentials.email,
           password: credentials.password,
         });
@@ -49,7 +50,7 @@ export const { handlers, auth } = NextAuth({
     strategy: "jwt",
   },
   pages: {
-    signIn: "/login",
+    signIn: "/signin",
   },
-  secret: "hwefu8Y&BHJBbf87fnHuhf78"
+  secret: config.NEXT_AUTH_SECRET,
 });
